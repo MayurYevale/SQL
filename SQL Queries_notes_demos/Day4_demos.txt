@@ -1,0 +1,382 @@
+
+from Suppliers s, suppliers r
+Where s.country=r.country
+and r.contactname='Robb Merchant'
+
+
+Subquery
+
+
+Display all the emp dtls whose salary is greater than the salary of Robin
+ 
+ select salary from Employee
+ Where firstname='robin'
+ 
+ select * from Employee
+ Where salary > 19500
+  
+ select * from Employee
+ Where salary > ( select salary from Employee
+                  Where firstname='robin')
+ 
+ 
+ -- Nested Subquery
+  Inner query executes first
+  output of inner -> input to outer query
+  Outer query executes
+
+Display all employee details whose job_id is same as job_id of robin
+
+select * from Employee
+Where job_id = ( select job_id from employee
+                  Where firstname='robin')                  
+                  
+display all employee details whose salary greater 
+than maximum salary paid in department id 20
+
+select * from Employee
+Where salary > ( 
+                  select max(salary) from Employee
+                  Where department_id=20
+                  )
+                  
+Display all emp dtls whose salary is same as minimum salary in each department                  
+
+select * from Employee
+Where Salary IN (    
+                  select min(salary)
+                  from Employee
+                  group by department_id
+                  )
+
+Display all employee details which are located in Pune
+
+select * from Employee
+Where department_id IN(
+      select department_id from department
+      Where locationid = (
+                    select locationid from location_dtls
+                    where city='Pune')
+          )
+
+
+Display all employee details whose salary is 
+greater than any of the employees in department 20
+
+select * from employee
+Where Salary >ANY (Select salary from Employee
+                Where department_id=20)
+
+23100
+19500
+60000
+
+IN  =ANY
+NOT IN   <>ALL
+
+OR 
+
+select * from Employee
+Where salary > ( select min(salary) from Employee
+                  Where department_id=20)
+
+                
+                  
+= sinlge value
+IN  multiple value
+
+>, <, <=, >=   Single value
+
+ANY  <ANY >ANY >=ANY <>ANY ....       Multiple values
+ALL  >ALL <ALL <=ALL >=ALL <>ALL .....  Multiple values
+
+
+
+>ANY : greater then either of the values returned by subquery
+
+Display all employee details whose salary is 
+greater than salary of all the employees in department 20
+
+select * from employee
+Where Salary >ALL ( 
+                  select salary from employee
+                  where department_id=20)
+OR
+
+select * from employee
+Where Salary >( 
+                  select max(salary) from employee
+                  where department_id=20)                  
+
+IN -  =ANY
+NOT IN - <>ALL
+
+Select Groupnumber, count(*)
+from (       
+      select Employeeid, job_id, department_id, 
+      case 
+      when department_id=10 then 'Group1'
+      when department_id=20 then 'Group2'
+      Else 'Group3'
+      End as groupNumber
+      from Employee
+      )
+group by groupnumber      
+
+
+select Employeeid, firstname ||' '||lastname Full_name, salary
+from(
+select employeeid, firstname, lastname, department_id, salary, department_name
+from Employee natural join department d
+)
+Where department_name='IT'
+
+
+Display all employee details , 
+along with corresponding department s average salary
+
+
+select Employeeid, firstname || ' '|| lastname, job_id, manager_id, salary,
+E.department_id, A.avg_salary
+From Employee E, ( Select department_id, avg(salary) as avg_salary
+                    from Employee
+                    group by department_id  
+                    ) A
+Where E.department_id = A.department_id
+
+ 
+--incorrect way
+
+select E.employeeid, e.firstname, e.job_id, e.department_id, e.salary,avg(salary)
+from Employee e
+group by E.employeeid, e.firstname, e.job_id, e.department_id, e.salary
+
+
+Display all employee details who earn more than their 
+own departments average salary
+
+--Nested 
+
+select E.employeeid, e.firstname, e.job_id, e.department_id, e.salary,
+D.avg_salary
+from Employee E,   (select department_id, trunc(avg(salary),0) as avg_salary
+                    from Employee
+                    group by department_id ) D
+Where E.department_id=D.department_id
+and E.salary > D.avg_salary
+
+
+ -- correlated subquery
+
+Display all emp dtls who earn same as minimum salary 
+ in their own department
+ 
+ --Correlated Subquery
+ 
+ select E.employeeid, e.firstname, e.job_id, e.department_id, e.salary
+ from Employee E
+ Where E.salary= ( select min(salary) from Employee D
+                    Where D.department_id=E.department_id)
+ 
+---Nested 
+/*select E.employeeid, e.firstname, e.job_id, e.department_id, e.salary,
+ D.Min_Salary
+from Employee E,   (select department_id, min(salary) as min_salary
+                    from Employee
+                    group by department_id ) D
+Where E.department_id=D.department_id
+and E.salary = D.Min_Salary*/
+
+Display all emp dtls whose salary is greater  than their own department average salary
+--correlated
+
+select * From Employee e
+Where e.salary > ( select avg(salary) from Employee D
+                  Where D.department_id=e.department_id)
+
+  
+ Display all emp dtls whose salary is greater  than their own job profiles average salary
+ 
+ select * from Employee E
+ Where E.salary > ( select avg(salary) from Employee D
+                    Where D.job_id=E.job_id)
+ 
+ select * from Employee
+ 
+ Display all department details which does not contain any employees
+
+select * from department D
+ Where department_id not in ( select department_id from Employee
+                                where department_id is not null )
+   
+  --correlated
+ 
+ select * from department D
+ Where NOT EXISTS ( select * from Employee E
+                     Where E.department_id=D.department_id)
+
+
+  display all categories for which products are available
+  
+  select * from categories t
+  Where EXISTS ( select * from products p
+                  Where P.categoryid=t.categoryid)
+
+  Correlated subquery
+  1. Outer
+  2. Inner
+    
+    Small Outer query
+              Big Inner query
+  
+ Nested subquery
+  1. Inner
+  2. Outer
+  
+    Big Outer query
+              Small Inner query
+    
+   
+    Insert into tblname
+    Values ( ) 
+    
+Insert into dept_new(department_id, department_name)
+select department_id, department_name
+from Department
+Where locationid=1
+
+select * from dept_new
+
+Modify the location of Johns department as Pune
+
+select * from location_Dtls
+select * From Employee
+select * from department
+
+Update department
+set locationid=(Select locationid from location_dtls Where city='Pune')
+Where department_id=(select department_id from Employee Where firstname='John')
+
+Delete all the department details located in chennai
+
+delete from department
+Where locationid= ( select locationid from location_Dtls where city='Chennai')
+
+ 
+ Create table tblname
+ (
+ colname
+ 
+ )
+ 
+ drop Table   Emp_backp11
+ 
+ Create table Emp_backp11 AS
+ select Employeeid, firstname||' '||lastname Fullname, job_id,salary, 
+ department_name
+ From Employee E, department D
+ Where E.department_id=D.department_id
+ and d.department_id in (10,20,30)
+ 
+ select * from Emp_backp11
+ 
+ 
+ 
+/* 
+ select company name from suppliers 
+ where supplierid in (
+ select supplierid 
+ from products 
+ where categoryid=8)
+ 
+ 
+ SELECT COMPANYNAME FROM SUPPLIERS s
+ WHERE EXISTS
+(
+SELECT * FROM PRODUCTS P 
+WHERE P.CATEGORYID=8
+and s.supplierid=P.supplierid
+);
+
+*/
+ 
+ 
+ drop view emp_dept_loc_view_new
+Create View emp_dept_loc_view_new
+as 
+select employeeid, firstname, lastname, job_id, salary, department_name, city
+from Employee E
+join Department D
+on E.department_id=D.department_id
+join location_dtls L
+on d.locationid= l.locationid
+
+select * from emp_dept_loc_view_new
+
+select * from user_views
+
+Create or replace View emp_dept_loc_view_new
+as 
+select employeeid, firstname, lastname, job_id, salary, manager_id, email, 
+department_name, city
+from Employee E
+join Department D
+on E.department_id=D.department_id
+join location_dtls L
+on d.locationid= l.locationid
+
+Drop view viewname
+
+drop sequence seq_generator_6420
+
+CREATE SEQUENCE seq_generator_6420
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 5
+  --NOMAXVALUE  
+  --CYCLE / NOCYCLE
+  
+  -- Data dictionary table
+  select * from user_sequences
+  
+select seq_generator_6420.NEXTVAL from dual
+
+select seq_generator_6420.CURRVAL from dual
+
+ALTER sequence seq_generator_6420
+MAXVALUE 100000
+
+Insert into dept_new 
+Values(seq_generator_6420.NEXTVAL, '&Department_name',&Location_id)
+
+select * From dept_new
+
+select * from user_indexes
+where table_name='EMPLOYEE'
+
+select * from user_ind_columns
+Where table_name='EMPLOYEE'
+
+select * from dept_new
+
+drop sequence sequenceName
+
+create Synonym EDL_Vw for Emp_Dept_loc_view_NEW
+
+select * from EDL_View
+
+select * from user_synonyms
+
+select * from db_user1.emp_backup
+
+Create synonym db1_emp for db_user1.emp_backup
+
+select * from db1_emp
+
+select * from user_synonyms
+
+drop synonym Emp_view1 
+
+create Synonym Emp_view1 for Emp_Dept_loc_view_NEW
+
+select * from Emp_view1 

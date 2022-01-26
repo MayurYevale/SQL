@@ -1,0 +1,234 @@
+
+Subquery
+------------
+
+Query within another query
+select query embedded within  a clause of another query
+
+
+1. Nested subquery
+
+ -- Inner query executes first
+ -- output of inner -> input to outer query
+ -- Outer query executes
+
+
+Comparison operators
+
+Single row subquery 
+Single row comparison operators	
+			>, <, =, >=, <=, <>
+
+Multiple row subquery
+Multiple row comparison operators
+			IN, NOT IN, ANY, ALL
+
+Locations to use subquery
+
+Where clause of select statement
+From clause of select statement
+Having clause of select statement
+
+
+select ...........
+From  ( select query  )
+
+ Subquery in From clause
+			INLINE VIEW / Virtual table
+
+2. Correlated subquery
+
+ - Outer query executes first
+ - Inner query executes for each row returned by the outer query
+ - Inner query contains some column from outer query's table
+
+= > < <> >= <=
+ EXISTS  , NOT EXISTS
+
+Locations to use subquery
+
+Where clause of select statement
+From clause of select statement
+Having clause of select statement
+
+Instead of Values Insert statement
+Set clause of update statement
+Where clause of update statement
+Where clause of Delete statement	
+
+Create table statement
+
+
+
+Nested Subquery
+
+	Big outer query 
+		( Small inner query )
+
+Correlated subquery
+	Small Outer query
+		(big inner query
+		) 
+
+View
+-----
+
+Virtual table / Logical table
+Snapshot of table
+like a window thru which we can see the data in the table
+wont contain any physical data
+
+Create View viewName as
+select query ...........
+
+Advantages
+- to make simple queries to retrieve the output of complicated queries
+- One view can be used to fetch data from multiple tables
+- provide set of users access to specific data as per their requirement/skill
+
+Corporate
+-----------
+	Employee	60 columns
+
+	-- Grant select on Employee to Finuser
+
+	Create View Emp_fin_view as
+		select ..... 15 columns .... from Employee where .....
+
+	Grant select on Emp_fin_view to Fin_user
+
+	Create View Emp_mkr_view as
+		select ..... 10 columns.. from Employee
+
+Fin_user
+---------
+
+mrket_user
+----------
+
+HR_user
+-------
+
+
+Create View emp_dept_loc_view
+as 
+select employeeid, firstname, lastname, job_id, salary, department_name, city
+from Employee E
+join Department D
+on E.department_id=D.department_id
+join location_dtls L
+on d.locationid= l.locationid
+
+select * from emp_dept_loc_view
+
+select * from user_views
+
+Create or replace View emp_dept_loc_view
+as 
+select employeeid, firstname, lastname, job_id, salary, manager_id, email, 
+department_name, city
+from Employee E
+join Department D
+on E.department_id=D.department_id
+join location_dtls L
+on d.locationid= l.locationid
+
+Drop view viewname
+
+SEQUENCE
+--------
+
+ user created DB object
+ to generate unique integers
+ to populate primary key column
+
+
+CREATE SEQUENCE seq_generator_6420
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 1000
+  CYCLE / NOCYCLE
+	
+
+to generate values from the sequence
+
+	NEXTVAL - generates and returns the next available unique integer
+	CURRVAL - will display last generated value by the sequence
+
+	sequence_name.NEXTVAL
+
+  
+  -- Data dictionary table
+  select * from user_sequences
+  
+select seq_generator_6420.NEXTVAL from dual
+
+select seq_generator_6420.CURRVAL from dual
+
+ALTER sequence seq_generator_6420
+MAXVALUE 10000000
+
+Insert into dept_new 
+Values(seq_generator_6420.NEXTVAL, '&Department_name',&Location_id)
+
+select * from dept_new
+
+drop sequence sequenceName
+
+
+INDEX
+------
+
+speed up the retrieval of data from the tables
+can be created explicitly or automatically
+is used and maintained by the oracle server automatically
+When user drops a table, all the indexes on that table will be removed
+
+	Create Index ind_name On Table_name( column )
+
+	Create index ix_jobid On Employee(job_id)
+
+Primary / Unique constraint - Automatically index will be available
+
+select * from employee
+Where job_id='HR';
+
+select .... from Employee
+Where department_id=
+
+Where salary >   <
+
+Where manager_id=
+
+drop index index_name
+
+select * from user_indexes
+
+select * from user_ind_columns
+Where table_name='EMPLOYEE'
+
+
+SYNONYM
+---------
+
+an alternative name for any Database object
+
+Create Synonym s_name For Object_name
+
+create Synonym ED_View for Emp_Dept_loc_view_NEW
+
+	- for lengthy object names
+	- to make it easy to access objects owned by other users
+
+
+select * from ED_View
+
+dbsql
+	location_dtls
+	
+db_user
+	select * from dbsql.location_dtls
+	
+	create synonym dbloc for dbsql.location_dtls
+
+	select * from dbloc

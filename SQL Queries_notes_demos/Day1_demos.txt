@@ -1,0 +1,174 @@
+
+
+
+
+scalar datatypes
+
+Date
+Number
+Varchar2
+Boolean
+Long
+
+
+drop table dept_6420
+
+Create Table dept_6420
+(
+Dept_id  number(5) PRIMARY KEY,
+Dept_name varchar2(20) UNIQUE ,
+Locatn_id number(3)
+);
+
+
+describe dept_6420
+
+desc dept_6420
+
+drop table Emp_6420
+
+Create table Emp_6420
+(
+Empid number(5), --PRIMARY KEY,    --column level constraints
+Empname varchar2(50),
+Emailid varchar2(15) UNIQUE,
+Gender varchar2(1) CHECK (Gender in ('M','F')),
+Phone_number varchar2(15),
+hiredate Date DEFAULT '01-JAN-01',
+Dept_id  number(5), --REFERENCES dept_6420(dept_id)
+CONSTRAINT emp_pk1 PRIMARY KEY(Empid),  -- Table level constraint
+CONSTRAINT dept_fl1 FOREIGN KEY(Dept_id) 
+                     REFERENCES dept_6420(dept_id)
+);
+
+
+
+desc EMP_6420
+
+
+select * from user_tables
+
+select * from User_objects
+
+select * from user_constraints
+Where table_name='EMP_6420'
+
+select * from user_cons_columns
+Where table_name='EMP_6420'
+
+select * from user_cons_columns
+where table_name='KOD_DETLS'
+
+-- to see the table structure
+DESCRIBE emp_6420
+DESCRIBE dept_6420
+
+
+-- to add new column
+Alter table emp_6420
+Add Salary number(8)
+
+-- to modify the column size
+ALTER table emp_6420
+MODIFY Emailid varchar2(50);
+
+-- to drop the column
+ALTER table emp_6420
+drop column gender;
+
+desc emp_6420
+
+-- to rename column name
+Alter table emp_6420
+rename column emailid to email_id
+
+drop table kod_detls
+
+create table kod_detls
+(orderid number(2),
+productid number(3),
+order_date date )
+
+select * From Employee
+
+-- to add constraint
+
+Alter table kod_detls
+Add CONSTRAINT k_pk1 PRIMARY KEY(orderid)
+
+--Alter table kod_detls
+--Add CONSTRAINT k_pk1 PRIMARY KEY(orderid,productid)
+
+--Alter table kod_detls
+--Add constraint k_fk1 foreign key (productid) references Products( productid  )
+
+user_constraints
+
+select * from user_cons_columns
+where table_name='EMP_6420'
+
+Alter table EMP_6420
+drop Constraint SYS_C007592
+
+-- to remove the data and table structure
+Drop table <table_name>;
+
+drop table emp_6420;
+
+drop table dept_6420;
+
+
+-- to trauncate the table
+Truncate table <table_name>;
+
+--To rename the table name
+RENAME emp To Employee;
+
+RENAME dept_6420 To department_backup
+
+
+select * from dept_new
+
+truncate table dept_new
+
+
+Insert into dept_new 
+Values (20,'Marketing',101)
+    
+Insert into dept_new(Department_id, department_name)
+Values (40,'HR')
+
+Insert into dept_new(Department_id, department_name)
+Values (&Department_id, '&Department_name')
+
+Insert ALL statement
+Oracle 11g
+  to insert multiple records using a single statement
+  
+
+Insert ALL
+into dept_new(Department_id, department_name) Values (60,'AA1')
+into dept_new(Department_id, department_name) Values (70,'AA2')
+into dept_new(Department_id, department_name) Values (80,'AA3')
+--into location_dtls values ( )
+--into location_dtls values ( )
+select * from dual;
+
+select * From dept_new
+
+Update dept_new
+set Locationid=101
+Where department_id =40
+
+Update dept_new
+set Locationid=101, department_name='LD'
+Where department_id = 70
+
+select * From dept_new
+
+update dept_new
+set locationid=102, department_name='FINANCE'
+Where department_id=20
+
+Delete from dept_new
+Where locationid is null

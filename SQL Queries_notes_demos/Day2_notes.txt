@@ -1,0 +1,208 @@
+SELECT statement
+----------------------
+
+	- all the sql queries are case insensative
+	- values in the table are case sensative
+
+SELECT * / column_names
+FROM table
+
+Arithmatic oprs  + - * /
+
+Column alais
+	alternative name for existing column in the table /calculated column
+
+alais in " "  : to make it case sensative, to add spaces, any special characters
+
+Concatenation operator ||
+
+WHERE clause
+		to specify row level filter condition
+
+Comparison operators
+
+	Basic
+		=  >  <  >=  <=  <>
+
+	Advance
+		IN		to compare with list of values
+		BETWEEN		to compare within range
+		LIKE		wildcard search
+				_ any single character
+				% 0 or more characters
+
+		IS NULL
+
+
+Logical operator
+	to incoporate multiple conditions in where clause
+	AND
+	OR
+
+	to reverse the condtion
+	NOT
+
+Not in
+Not between
+not like
+is not null
+
+
+Sorting of data
+	ORDER BY clause
+
+ASC - ascending 	- default
+DESC - descending order
+
+
+Order by clause can contain
+		Numeric column, date column , character column 	
+
+Order by clause 
+	column name, column alais, column position
+
+Order by clause is the only clause in select statement where we can use column alais
+
+FUNCTIONS
+--------------
+
+ - can accept parameters
+ - can  be nested
+ - can modify the datatype
+ - can manipulate data items
+ - must return value
+
+Single row functions
+		----> 1 value ---> Function ---> 1 Value
+
+Multiple Row functions / Group , aggregate functions
+		---->
+		--->
+		---->	aggregate Function	--- 1 value
+		---->
+		---->
+		---->
+
+Single row functions
+
+	Character
+	Numeric
+	Date
+	Generic
+	Conversion
+
+Single row Functions
+	Character
+		Case Manipulation
+			UPPER
+			LOWER
+			INITCAP
+		Char manipulation
+			CONCAT
+			REPLACE
+			LENGTH
+			LPAD/RPAD	Hw
+			SUBSTR
+			INSTR
+			Trim		Hw
+
+	Numeric
+			MOD
+			TRUNC
+			ROUND
+	Date
+			Sysdate
+			add_months
+			months_between
+			next_day
+			last_day
+			trunc/ round	HW 
+
+	Generic
+			NVL(column,replacement_value)
+
+	if column contains null value replace it with 2nd parameter
+
+			NVL2(column, m , n)
+
+	if column contains null value, it will be replaced with 3rd parameter
+	does not contain null value, it will be replaced with 2nd parameter
+
+
+Conversion
+			to convert a value from one datatype to another datatype
+
+	to_char(date/number, 'Format element')
+		 - to change the display format for Date or Numeric value
+	to_date(Char,'Format element')
+	to_number(char,'Format element')
+
+ Default date format oracle 
+			DD-MON-YY
+
+Format elements for date
+
+DD : 29
+MM : 07
+YY : 21
+YYYY : 2021
+MON : JUL
+Month : July
+Day : day of the week
+th : 1st, 2nd, 6th, 3rd, 21st, 10th
+sp : spell out the date
+
+HH : Hour
+MI : Minute
+HH24 : Hour 
+SS : second
+AM/PM
+
+Format elements for number
+
+. decimal point
+, Thousand indicator
+$
+ 9 any number
+
+Multiple row functions
+------------------------
+
+--->
+--->		Function	---> 1 value
+--->
+--->
+--->
+
+AVG(n)
+SUM(n)
+MAX(expr) - can accept character, number as well as date datatype column
+MIN(expr) - can accept character, number as well as date datatype column
+COUNT(expr) - can accept character, number as well as date datatype column
+
+
+All the group functions ignore null values in the column
+
+GROUP BY Clause
+		to segregate data into multiple groups
+
+Having clause
+		to apply filter condition on grouped data
+	
+
+Conditional Expression
+
+to incorporate If Else logic within SQL Query
+
+
+- CASE Expression
+		Simple case
+		Searched
+- DECODE Function		
+		alternative for simple case		
+
+
+if job_id IT_REP  salary+500
+  job_id  sales_rep salary+800
+else	salary
+

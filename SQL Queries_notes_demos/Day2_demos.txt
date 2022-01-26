@@ -1,0 +1,438 @@
+
+
+select * from location_Dtls
+select * From department
+select * From Employee
+
+
+select employeeid, firstname, lastname, job_id, salary from Employee
+
+select DISTINCT job_id from Employee
+
+select * from Department
+
+--Column alais
+
+select employeeid, firstname, lastname, job_id Job_profile,
+salary "Monthly salary in $",
+Salary * 12 AS Annual_salary
+from Employee 
+
+select firstname || ' is an employee' from Employee
+
+select employeeid, firstname || ' ' ||  lastname AS FULL_NAME
+from Employee
+
+select * from Employee
+
+John with Salary 68000
+
+
+select firstname, salary from Employee
+
+select firstname || ' With Salary ' || salary Management_data 
+from Employee
+
+
+select employeeid, 'Employee of company', firstname,
+lastname, job_id, department_id
+from Employee
+
+ hard coded string embedded in select clause : Character literal
+
+select * from Employee
+Where department_id=10
+
+select * from Employee
+Where job_id ='IT_REP'
+
+select * from Employee
+Where salary > 40000
+
+select * from Employee
+Where hiredate<'01-feb-18'
+  
+Character value is case sensative
+Date value is format sensative
+
+Default date format DD-MON-YY , DD-MON-YYYY
+
+select * from Employee
+Where job_id in ('IT_REP','HR')
+
+select * from Employee
+Where department_id in (10,20,30)
+
+select * from Employee
+Where salary Between 60000 and 78000
+
+--Salary >=60000 and salary <=78000
+
+select * from Employee
+Where hiredate between '01-JAN-17' and '01-FEB-20'
+
+
+_  single character
+% 0 or more characters
+
+select * from Employee
+Where firstname like 'P%'
+
+select * from Employee
+Where job_id like '%REP'
+
+select * from Employee
+Where hiredate like '%18'
+
+select * from Employee
+Where hiredate like '%JAN%'
+
+select * from Employee
+Where commitionpct is null
+
+select * from Employee
+Where commitionpct = null
+
+select * from Employee
+Where salary > 45000
+and department_id in (10,20)
+
+select * from Employee
+Where salary > 45000
+or department_id in (10,20,30,40)
+
+
+select *
+from Employee
+Where salary between 40000 and 75000
+and Hiredate between '01-JAN-19' and '31-DEC-20'
+
+select * from Employee
+Where job_id not in ('IT_REP','HR','SALES_HEAD')
+
+select * from Employee
+Where job_id not like '%REP%'
+
+select * from Employee
+Where salary not between 60000 and 76000
+
+select * from Employee
+where manager_id is not null
+
+select employeeid, firstname, lastname, job_id, hiredate, salary, department_id
+from Employee
+ORDER by salary asc
+
+select employeeid, firstname, lastname, job_id, hiredate, salary, department_id
+from Employee
+--Where department_id=10
+ORDER by hiredate desc
+--order by firstname
+
+select employeeid, firstname, lastname, job_id, hiredate, 
+salary, department_id as dept_id,
+salary *12 Annual_salary
+from Employee
+--Where annual_salary=600000
+--Where salary * 12 = 600000
+Order by annual_salary
+
+select employeeid, firstname, lastname, job_id, hiredate,salary, department_id
+from Employee
+ORDER by 6
+
+select *
+from Employee
+ORDER by 6
+
+select employeeid, firstname, lastname, job_id, hiredate, 
+department_id, salary
+from Employee
+Order by department_id asc, salary desc
+
+select upper(firstname), lower(job_id) from employee
+
+select upper('it was raining that day') from dual
+
+select Initcap('it was raining that day') from dual
+
+select concat(Firstname, ' is an employee') from employee
+
+select firstname || ' '|| lastname from employee
+
+select * from dual
+
+select 800*7 from dual
+
+select Email, replace(email, '.com', '.co.in') from employee
+
+select replace ( 'It was raining heavily that day','was','is') from dual;
+
+Update employee
+set email=replace(email,'.com','.co.in')
+Where .........
+
+
+select length(Email) from employee
+
+substr (string, m, n)
+m: starting position
+n: number of characters
+
+select Substr('It is very hot today',7,8) from dual
+
+select Substr('It is very hot today',7) from dual
+
+select Substr('It is very hot today',-9,6 ) from dual
+
+select Email, Substr(Email,-9) from employee
+where email like '%gmail%' or email like '%yahoo%';
+
+JohnD@yahoo.com
+
+Instr 
+used to find position of particular character within the string
+
+Instr(string,'char',m,n)
+m : start searching from this position  / 1
+n : nth occurance / 1
+
+
+
+email id kalyani_Akut@gmail.com
+user name Kalyani_akut
+
+select email from employee
+
+JW@yahoo.com    3
+
+select substr(email,1,
+
+select Email, 
+instr(email, '@',1,1) from Employee
+
+select Email, 
+Substr(email, 1, instr(email,'@',1,1)-1) from Employee
+
+
+--select Email, Substr(email, instr(email,'@',1,1)+1) from Employee
+
+
+020-2548969698
+02256-5453543543
+
+ substr(phone_nu, Instr(phone_nu,'-',1,1)+1 )
+
+  
+ select Mod(27,4)  from dual
+ 
+ 
+ 25.90327850000
+    
+ select trunc(25.90327850000,4) from dual
+ select trunc(25.90327850000,1) from dual
+ select trunc(25.90327850000,0) from dual 
+ 
+ select round(25.90327850000,4) from dual
+ 
+ 0 - 4
+ 5 - 9 
+ 
+ select round(25.90327850000,3) from dual
+ 
+ select round(25.90327850000,0) from dual
+ 
+ select round(25.90327850000,0) from dual
+ 
+ 
+    select sysdate from dual
+ 
+ select sysdate - 7 from dual
+ 
+ select sysdate + 4 from dual
+ 
+ select hiredate from employee
+ 
+ select add_Months(sysdate,3) from dual
+ 
+ select add_Months(sysdate,-4) from dual
+ 
+ select hiredate, 
+ add_months(hiredate,6) from employee
+ 
+ months_between(date 1 , date 2)
+ 
+ 26-Oct     26-Mar
+ 26-Oct     30-Mar
+ 
+ select hiredate, 
+ trunc(months_between(sysdate, hiredate ),2)
+ from employee
+  
+ select next_day(sysdate,'Monday') from dual
+ 
+ select next_day(sysdate,'Thursday') from dual
+ 
+ select next_day(sysdate,'Saturday') from dual
+ 
+ select last_day(sysdate) from dual
+ 
+ select hiredate, last_day(hiredate) from employee
+  
+ select Employeeid, firstname, salary, commitionpct, manager_id, department_id
+ from employee
+ 
+ select Employeeid, firstname, salary, 
+ nvl(manager_id,0), 
+ Nvl(commitionpct,0),
+ nvl(department_id,0),
+ nvl(hiredate,'01-JUL-2000')
+ from employee
+  
+ select Employeeid, firstname, salary, nvl(manager_id,0), nvl(department_id,0), 
+ commitionpct, --salary * commitionpct
+ NVL2(commitionpct , salary * commitionpct  , 0) as comm_value 
+ from employee
+
+
+select sysdate from dual
+
+select firstname, lastname, job_id, hiredate from employee
+
+
+select to_char(sysdate,'Month DD, YYYY') from dual
+
+select to_char(sysdate,'Day, Month DD, YYYY') from dual
+
+select to_char(sysdate,'Ddth Month YY') from dual
+
+select to_char(sysdate,'Day, DD Month YYYY HH:MI:SS') from dual
+
+select to_char(sysdate,'Day') from dual
+select to_char(sysdate,'Month') from dual
+select to_char(sysdate,'YYYY') from dual
+
+select to_char(sysdate,'Ddspth Month YYYY') from dual
+
+select to_char(sysdate,'Ddsp Month YYYY') from dual
+
+select * from employee
+68,000.00
+
+select to_char(salary,'99,99,999.99') from Employee
+
+select * from Employee
+Where hiredate= to_date('June 10, 2002','Month DD, YYYY')
+--Where hiredate = 'June 10, 2002'
+
+select to_date('June 10, 2002','Month DD, YYYY') from dual
+
+select * from Employee
+Where hiredate='10-JUN-02'
+
+
+select * from Employee
+Where hiredate=to_date('June 10, 2002','Month DD, YYYY')
+
+'$68,000'
+
+select '$68,000' + 1000  from dual
+
+select to_number('$68,000','$99,999') +1000  from dual
+
+
+select max(salary), min(salary), avg(salary) 
+from employee
+
+select sum(salary) from employee
+
+select max(hiredate), min(hiredate) from employee
+
+select count(*) from Employee
+select count(employeeid) from Employee
+select count(manager_id) from Employee
+
+
+select count( distinct department_id) from employee
+
+select * from Employee
+
+
+select Department_Id, count(employeeid)
+from employee
+Group by Department_Id
+
+
+select Department_Id, sum(salary) , count(employeeid), max(hiredate)
+from employee
+Group by Department_Id
+
+select Department_Id, max(salary), min(salary)
+from employee
+Where job_id in ('IT_REP','SALES_REP')
+Group by Department_Id
+
+select job_id, max(salary)
+from employee
+Group by Job_id
+
+select Department_Id,job_id, sum(salary) tot_salary_paid
+from employee
+Group by Department_Id, job_id
+order by department_id, job_id
+
+select Department_Id DeptId, sum(salary) tot_salary_paid
+from employee
+where manager_id is not null
+Group by Department_Id
+--Having department_id =10
+Having sum(salary)> 100000
+
+
+select job_id, max(salary), min(salary)
+from employee
+Where department_id in (10,20)    -- row level filter
+group by job_id
+having max(salary)>60000          -- Group level filter
+Order by max(salary)
+
+
+-- sequence of all the clauses
+
+select department_id, sum(salary) as total_sal    -- column list
+from Employee                                     -- table names
+Where department_id is not null                   -- row level filter
+group by department_id                            -- group the data
+Having sum(salary)>=95000                         -- group level filter
+order by total_sal                              -- sort the data
+
+
+Simple case expression
+
+select Employeeid, job_id, salary,
+Case Job_id
+    When 'IT_REP' then salary+500
+    When 'SALES_REP' then salary+800
+Else     salary
+End 
+as cal_salary
+from Employee
+
+Searched case Expr
+
+select Employeeid, job_id, salary,
+Case 
+    When job_id='IT_REP' then salary+500
+    When job_id='SALES_REP' and salary < 51000 then salary+800
+Else 
+    salary
+End as updated_salary
+from Employee
+
+
+Update employee
+set salary = ( Case When job_id='IT_REP' then salary+500
+                    When job_id='SALES_REP' and salary < 51000 then salary+800
+              Else 
+                      salary
+              End )

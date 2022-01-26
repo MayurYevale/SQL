@@ -1,0 +1,329 @@
+
+
+
+Conditional expressions
+
+to incorporate 
+If else logic in sql query
+
+- CASE Expression
+	Simple
+	Searched
+- DECODE Function					Hw
+	alternative for simple case expression
+
+
+jobid IT REP	then salary +500
+jobid Sales REP	then salary + 800
+else	Salary
+
+
+Combining Data
+===============
+
+Set Operators
+	combine output of multiple queries together
+
+Joins
+	combine data from multiple tables
+
+
+Joins
+-------
+		- Combine the data from multiple tables
+
+
+Inner Join
+		basic syntax
+		ANSI stnd syntax
+Cartesian product
+Natural Join
+Self Join
+Outer Join
+
+
+OUTER JOIN
+
+	display matched as well as unmatched data
+
+	Oracle prop
+			(+)
+	ANSI standard
+			LEFT OUTER JOIN	  - LEFT JOIN
+			RIGHT OUTER JOIN  - RIGHT JOIN
+			FULL OUTER JOIN - Full Join
+
+Self Join
+
+Joining a table to itself
+
+	Emp id	Name	Manager id
+	1	AAA		null
+	2	Shubhangi	1
+	3	Kalyani		2
+
+
+
+Set Operators
+		- Combine the output of multiple queries
+	- UNION - All rows selected by both the queries, excluding duplicates
+	- UNION ALL - All rows selected  by both the queries;including duplicates	
+	- INTERSECT - all the rows common in both the queries output
+	- MINUS - All rows selected by first query but not by second query
+
+select column1, column2 from table1
+set operator
+select column3, column5 from table2
+
+Guidelines - 
+ - Output will be sorted based on first column in the result; except in case of UNION ALL
+ - Number of column selected by all the queries and their data type should match. 
+	column names can be different.
+- Column names from the 1st query will appear in result set
+
+
+select col1, col5 from table1
+set operator
+select col2, col5 from tbl2
+
+output
+	names : Col1, Col5
+
+
+TCL statements
+-------------------
+
+Transaction Control Language
+
+Database Transaction
+
+		Series of operations performed on the database
+
+	starts with	1st DML statement
+	Ends
+			Commit, Rollback
+			DDL or DCL statement	 Auto Commit
+
+
+TCL stmts
+
+	COMMIT - Saves the changes to the database. Ends the transaction.
+	ROLLBACK - undo the changes. Ends the transaction.
+	SAVEPOINT - marker point within the transaction
+
+Connect db1
+Select .......
+
+insert			
+update
+select
+delete
+select
+insert
+Update
+delete
+
+
+  Rollback
+		
+Select
+Update	
+delete
+select
+	Savepoint S1
+insert
+delete
+	Savepoint S2
+select
+update
+	Savepoint S3
+-
+-
+....
+
+Rollback to s2
+
+Commit
+
+
+1 Insert			
+2 Update
+3 select
+	savepoint s1
+4 Insert
+5 delete
+	savepoint s2
+6 select
+7 insert
+8 update
+9 create table emp_backup as select * from employee	
+				
+10 select				
+11 insert			
+	savepoint s3
+12 update
+13 delete
+	--Rollback		
+
+	--Rollback to s3		
+
+	Rollback to s2
+
+Once committed user can not rollback
+Once committed all the savepoints in the transaction will be erased from the memory
+
+State of the data before commit or rollback
+1. Previous state of the data can be restored
+
+State of the data after Commit
+
+1. data changes are saved in the database
+2. Previous state of the data is lost 
+3. Savepoints within the transaction will be erased
+
+State of the data after Rollback
+1. Changes are undone.
+2. Previous state of the data is restored.
+
+
+DCL statements
+------------------------
+
+DCL
+Data Control Language
+
+to control the access to the data or to the database
+
+	GRANT - to provide the privileges to other users
+	REVOKE - to remove the privileges from other users
+
+
+GRANT - 
+	2 types of privileges
+		Object privileges
+		System privileges
+
+	Object privileges - related to existing objects in the database
+		Obj : Table, View, Procedure,  Function etc..
+		Priv : SELECT , Insert, Update, Delete, Execute etc
+	Syntax : 
+		GRANT privileges ON Object TO User [ With Grant option ]
+
+		GRANT select on Emp to User1
+		GRANT select, insert, update On Dept to User2, User5;
+
+		Grant select on Dept to U1, U2, U4;
+		
+		Grantor : who assigns the privileges
+		Grantee : to whom the privileges are assigned
+
+Note : we can not assign on multiple objects together.		
+
+		connect db_user
+			Grant select on Emp to User2
+		Connect User2
+			select * from db_user.Emp
+
+		connect db_user
+			Grant select on Emp to User2 with Grant option
+
+		Connect User2
+			select * from db_user.Emp
+			grant select on db_user.Emp to User3
+
+
+select * From user_tab_privs_made
+select * From user_tab_privs_recd
+
+
+		System privileges
+			is the right to perform a particular action the database
+
+			Create any table, alter any table, drop any table
+			Create any view, drop any view
+			Create any index, create any trigger, drop any trigger
+			etc
+
+		Syntax
+			Grant privileges TO User [ with admin option]
+			Grant create any table, create any view to Usr1
+			Grant create any procedure to U1, U2, U4, U6;
+
+			grant  create any trigger to User1 with admin option
+
+
+REVOKE
+
+	to ungrant to remove the privileges which are assigned
+
+		Syntax
+			Object
+				Revoke privileges On Obj From User
+				Revoke select on Emp from User2
+			System
+				Revoke privileges From User
+				Revoke create any view from Usr1;
+
+
+- revoke object privs from users 
+- revoke system privs from users
+- Revoke Roles from Users
+
+
+db_user
+	grant select on dept to User1 with grant option
+user1
+	select * from db_user.dept
+	grant select on db_user.dept to User2 with grant option
+
+User2	
+	grant select on db_user.dept to User3 with grant option	
+
+User3
+	grant select on db_user.dept to User4 with grant option	
+
+db_user -> user1 -> user2 -> user3->user4
+
+db_user
+	revoke Select on dept from User1
+
+Cascading of revoke
+	- will happen in case of object privileges assigned using With Grant option
+	- will not happen in case of syetem privileges assigned using with admin option
+
+
+Role
+------
+
+	group of privileges
+
+Create Role Role_name
+Create Role Role1
+
+
+Grant select on Emp to Role1
+Grant insert on dept to Role1
+Grant update on Emp to Role1
+
+Grant create any table , create any index, create any view to Role1
+
+-
+-
+
+
+
+
+	Grant Role1 to User1
+	
+	Grant Role1, Role2 to User2
+
+	Grant Role1 to User1, USer5, u1
+
+
+
+select * From role_tab_privs
+	-- revoke role from user
+	Revoke Role1 from User1
+		
+	- revoke privileges from role
+	Revoke select on location from Role1
