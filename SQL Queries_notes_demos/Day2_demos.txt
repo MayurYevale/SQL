@@ -18,7 +18,7 @@ salary "Monthly salary in $",
 Salary * 12 AS Annual_salary
 from Employee 
 
-select firstname || ' is an employee' from Employee
+select firstname || ' is an employee'  from Employee
 
 select employeeid, firstname || ' ' ||  lastname AS FULL_NAME
 from Employee
